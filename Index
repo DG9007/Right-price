@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Menor Preço RJ</title>
+
+<style>
+body{font-family:Arial;background:#f5f5f5;padding:20px}
+input{padding:12px;width:100%;font-size:16px;margin-bottom:15px}
+.card{background:#fff;padding:10px;border-radius:10px;margin-bottom:10px}
+.price{font-weight:bold}
+.best{border:2px solid green}
+small{color:#666}
+</style>
+</head>
+
+<body>
+
+<h2>🛒 Menor Preço RJ</h2>
+
+<input id="search" placeholder="Digite um produto (ex: café pilão)">
+
+<div id="result"></div>
+
+<script>
+let data = null;
+
+// carregar API
+async function loadData(){
+  const res = await fetch("/api/encartes");
+  data = await res.json();
+}
+
+function normalize(text){
+  return text.toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"");
+}
+
+function searchProduct(q){
+  const results = [];
+
+  data.supermarkets.forEach(sm=>{
+    sm.offers.forEach(o=>{
+      if(normalize(o.product).includes(normalize(q))){
+        results.push({
+          ...o,
+          supermarket: sm.name,
+          color: sm.color
+        });
+      }
+    });
+  });
+
+  return results.sort((a,b)=>a.price - b.price);
+}
+
+function render(q){
+  if(!q) return;
+
+  const results = searchProduct(q);
+  const container = document.getElementById("result");
+
+  if(results.length === 0){
+    container.innerHTML = "<p>Nenhum resultado</p>";
+    return;
+  }
+
+  const cheapest = results[0];
+
+  container.innerHTML = `
+    <h3>Resultado para "${q}"</h3>
+  ` + results.map(r=>`
+    <div class="card ${r === cheapest ? 'best' : ''}">
+      <div><b>${r.product}</b></div>
+      <div style="color:${r.color}">
+        ${r.supermarket}
+      </div>
+      <div class="price">R$ ${r.price.toFixed(2)}</div>
+      ${r === cheapest ? "<small>🔥 Mais barato</small>" : ""}
+    </div>
+  `).join("");
+}
+
+document.getElementById("search").addEventListener("input",(e)=>{
+  render(e.target.value);
+});
+
+loadData();
+</script>
+
+</body>
+</html>
