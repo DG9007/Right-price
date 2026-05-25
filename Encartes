@@ -1,0 +1,42 @@
+{
+  "updated_at": "2026-05-24T12:00:00Z",
+
+  "offers": [
+    {
+      "product": "Café Pilão 500g",
+      "price": 13.99,
+      "supermarket": "Assaí",
+      "color": "#e11d48",
+      "light": "#ffe4e6"
+    },
+    {
+      "product": "Café Pilão 500g",
+      "price": 12.49,
+      "supermarket": "Guanabara",
+      "color": "#16a34a",
+      "light": "#dcfce7"
+    },
+    {
+      "product": "Café Pilão 500g",
+      "price": 14.20,
+      "supermarket": "Mundial",
+      "color": "#2563eb",
+      "light": "#dbeafe"
+    },
+
+    {
+      "product": "Arroz 5kg",
+      "price": 24.90,
+      "supermarket": "Assaí",
+      "color": "#e11d48",
+      "light": "#ffe4e6"
+    },
+    {
+      "product": "Arroz 5kg",
+      "price": 26.90,
+      "supermarket": "Guanabara",
+      "color": "#16a34a",
+      "light": "#dcfce7"
+    }
+  ]
+}
